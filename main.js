@@ -67,6 +67,7 @@ function createProducer() {
 </div>
 `;
       let alreadyExists = checkIfExists(i);
+      console.log(alreadyExists);
       //Will only append new producer if it does not already exist in the DOM
       if (!alreadyExists) {
         producerShop.appendChild(producer);
@@ -77,7 +78,7 @@ function createProducer() {
 }
 
 function checkIfExists(i) {
-  let alreadyExistsBoolean;
+  let alreadyExistsBoolean = false;
   //If no active producers in activeProducers array, it can be assumed that it does not exist
   if (activeProducers.length === 0) {
     alreadyExistsBoolean = false;
