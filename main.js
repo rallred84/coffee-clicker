@@ -67,7 +67,6 @@ function createProducer() {
 </div>
 `;
       let alreadyExists = checkIfExists(i);
-      console.log(alreadyExists);
       //Will only append new producer if it does not already exist in the DOM
       if (!alreadyExists) {
         producerShop.appendChild(producer);
@@ -80,13 +79,10 @@ function createProducer() {
 function checkIfExists(i) {
   let alreadyExistsBoolean = false;
   //If no active producers in activeProducers array, it can be assumed that it does not exist
-  if (activeProducers.length === 0) {
-    alreadyExistsBoolean = false;
-  } else {
-    //If there are active producers, check to see if the current one matches any of the existing producers:
+  if (activeProducers.length !== 0) {
+    //If the current producer matches one of the already active producers, set alreadyExists to true
     activeProducers.forEach((producerName) => {
       if (producerName === coffeeProducers[i].name) {
-        //If a match is found, set alreadyExists to true
         alreadyExistsBoolean = true;
       }
     });
