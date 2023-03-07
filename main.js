@@ -33,6 +33,7 @@ const coffeeProducers = [
 const producerShop = document.getElementById('producer-shop'); //The right column that houses our producer buy cards
 const coffeeImage = document.getElementById('coffee-pic'); //Our image button that we click to add coffee manually
 const scoreboard = document.querySelector('#coffee-count'); //The current tally of total coffees
+const rate = document.querySelector('#coffee-rate'); //The current coffee/second rate
 
 //Event listener for coffee button
 coffeeImage.addEventListener('click', () => {
@@ -46,7 +47,7 @@ scoreboard.addEventListener('DOMSubtreeModified', createProducer);
 
 //We want to make a function that will create a producer card when the coffee score gets to half the producer's cost. As we create producers we will store them in an Active Producer array (activeProducers)
 
-let activeProducers = [];
+const activeProducers = [];
 
 function createProducer() {
   //Iterates through list of producers, and if it the current coffee total is equal to or greater than half of that producer's cost, will create that producer and later append it if it does not already exist in DOM
@@ -60,12 +61,15 @@ function createProducer() {
   <button>Buy</button>
 </div>
 <div class="producer-info">
-  <span>Quantity: ${coffeeProducers[i].quantity}</span>
-  <span>Coffee/Second: ${coffeeProducers[i].rate}</span>
+  <span class = "quantity">Quantity: ${coffeeProducers[i].quantity}</span>
+  <span class = "rate">Coffee/Second: ${coffeeProducers[i].rate}</span>
   <span>Cost: ${coffeeProducers[i].cost} coffee</span>
 </div>
 </div>
 `;
+      //Need to create a button specific to this producer so that it can perform producer specific actions when clicked
+      createBuyButton(producer, i);
+
       let alreadyExists = checkIfExists(i);
       //Will only append new producer if it does not already exist in the DOM
       if (!alreadyExists) {
@@ -88,4 +92,32 @@ function checkIfExists(i) {
     });
   }
   return alreadyExistsBoolean;
+}
+
+// We want to create a "Buy Button" inside the producer element
+function createBuyButton(producer, i) {
+  let button = producer.querySelector('button');
+  button.addEventListener('click', () => {
+    //If you dont  have enough coffee, alert 'You need more coffee!'
+    if (coffeeCount < coffeeProducers[i].cost) {
+      alert('You need more coffee!');
+    } else {
+      // When clicked needs to:
+      //  Add 1 Quantity and (product specific) coffee/second
+      updateProducerInfo(producer, i);
+      //Remove (product specific) cost of producer from total coffee
+      coffeeCount -= coffeeProducers[i].cost;
+      scoreboard.textContent = `Coffee: ${coffeeCount}`;
+    }
+  });
+}
+
+function updateProducerInfo(producer, i) {
+  //Create quantity element inside producer and add 1 quantity to it, then update text content in DOM
+  let quantity = producer.querySelector('.quantity');
+  coffeeProducers[i].quantity += 1;
+  quantity.textContent = `Quantity: ${coffeeProducers[i].quantity}`;
+  //Add producer specific rate quanity to total coffe/second rate, then update text content in DOM
+  coffeeRate += coffeeProducers[i].rate;
+  rate.textContent = `${coffeeRate} coffee/second`;
 }
