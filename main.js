@@ -49,6 +49,7 @@ scoreboard.addEventListener('DOMSubtreeModified', createProducer);
 let activeProducers = [];
 
 function createProducer() {
+  //Iterates through list of producers, and if it the current coffee total is equal to or greater than half of that producer's cost, will create that producer and later append it if it does not already exist in DOM
   for (i in coffeeProducers) {
     if (coffeeCount >= coffeeProducers[i].cost / 2) {
       let producer = document.createElement('div');
@@ -65,33 +66,29 @@ function createProducer() {
 </div>
 </div>
 `;
-      appendProducer(producer, producerShop);
+      let alreadyExists = checkIfExists(i);
+      //Will only append new producer if it does not already exist in the DOM
+      if (!alreadyExists) {
+        producerShop.appendChild(producer);
+        activeProducers.push(coffeeProducers[i].name);
+      }
     }
   }
 }
 
-// Creating a helper function to append created producers to the right column if they do not already exist in the DOM
-
-function appendProducer(producer, producerShop) {
-  //If no active producers, add it
+function checkIfExists(i) {
+  let alreadyExistsBoolean;
+  //If no active producers in activeProducers array, it can be assumed that it does not exist
   if (activeProducers.length === 0) {
-    producerShop.appendChild(producer);
-    activeProducers.push(coffeeProducers[i].name);
+    alreadyExistsBoolean = false;
   } else {
     //If there are active producers, check to see if the current one matches any of the existing producers:
-    //The assumption is that it does not exist unless otherwise proven to.
-    let alreadyExists = false;
-
     activeProducers.forEach((producerName) => {
       if (producerName === coffeeProducers[i].name) {
-        alreadyExists = true;
+        //If a match is found, set alreadyExists to true
+        alreadyExistsBoolean = true;
       }
     });
-
-    //If it does not exist, code WILL run and add the producer. If it does already exist, code will NOT run
-    if (!alreadyExists) {
-      producerShop.appendChild(producer);
-      activeProducers.push(coffeeProducers[i].name);
-    }
   }
+  return alreadyExistsBoolean;
 }
