@@ -38,10 +38,10 @@ coffeeImage.addEventListener('click', () => {
 });
 
 //adding a producer buy card
-let i = 0;
-const producerShop = document.getElementById('producer-shop');
-let producer = document.createElement('div');
-producer.innerHTML = `
+for (i in coffeeProducers) {
+  const producerShop = document.getElementById('producer-shop');
+  let producer = document.createElement('div');
+  producer.innerHTML = `
 <div class="producer">
 <div class="producer-name">
   <span>${coffeeProducers[i].name}</span>
@@ -54,4 +54,5 @@ producer.innerHTML = `
 </div>
 </div>
 `;
-producerShop.appendChild(producer);
+  producerShop.appendChild(producer);
+}
