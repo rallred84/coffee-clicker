@@ -14,7 +14,7 @@ const coffeeProducers = [
   {
     id: 1,
     name: 'French Press Machine',
-    quantity: 12,
+    quantity: 0,
     rate: 2,
     cost: 50,
     isVisible: false,
@@ -22,34 +22,34 @@ const coffeeProducers = [
   {
     id: 2,
     name: 'Mr. Coffee Machine',
-    quantity: 4,
+    quantity: 0,
     rate: 3,
     cost: 100,
     isVisible: false,
   },
 ];
 
-//event listener for coffee button
-const coffeeImage = document.getElementById('coffee-pic');
+//Grabbing sections of the DOM that we will be manipulating and/or listening to with our js
+const producerShop = document.getElementById('producer-shop'); //The right column that houses our producer buy cards
+const coffeeImage = document.getElementById('coffee-pic'); //Our image button that we click to add coffee manually
+const scoreboard = document.querySelector('#coffee-count'); //The current tally of total coffees
 
+//Event listener for coffee button
 coffeeImage.addEventListener('click', () => {
   coffeeCount++;
   scoreboard.textContent = `Coffee: ${coffeeCount}`;
 });
 
-//event listener for scoreboard
-const scoreboard = document.querySelector('#coffee-count');
-
+//Event listener for scoreboard
 //Not sure if this is the best way, but DOMSubtreeModified 'fires when the structure of the DOM tree changes'...so when the count changes on the scoreboard, this listener will fire (also worked with DOMNodeInserted and DOMNodeRemoved)
-scoreboard.addEventListener('DOMSubtreeModified', addProducer);
+scoreboard.addEventListener('DOMSubtreeModified', createProducer);
 
-//We want to make a function to make producer appear in producer list when the coffee score gets to half the producer's cost
+//We want to make a function that will create a producer card when the coffee score gets to half the producer's cost. As we create producers we will store them in an Active Producer array (activeProducers)
 
 let activeProducers = [];
 
-function addProducer() {
+function createProducer() {
   for (i in coffeeProducers) {
-    const producerShop = document.getElementById('producer-shop');
     if (coffeeCount >= coffeeProducers[i].cost / 2) {
       let producer = document.createElement('div');
       producer.innerHTML = `
@@ -65,28 +65,33 @@ function addProducer() {
 </div>
 </div>
 `;
-      // Only want to append the producer's buy card (producer) if the producer does not already exist in the active producer list (activeProducers)
-      //if no active producers, add it
-      if (activeProducers.length === 0) {
-        producerShop.appendChild(producer);
-        activeProducers.push(coffeeProducers[i].name);
-      } else {
-        //If there are active producers, check to see if the current one matches any of them. Assumes it does not exist unless otherwise proven to. If it already exists, code will not run, if not code WILL run
-
-        //['Basic Coffee Roast Machine', 'French Press Machine']
-        let alreadyExists = false;
-        for (producerName of activeProducers) {
-          if (producerName === coffeeProducers[i].name) {
-            alreadyExists = true;
-          }
-        }
-        if (alreadyExists === false) {
-          producerShop.appendChild(producer);
-          activeProducers.push(coffeeProducers[i].name);
-        }
-      }
+      appendProducer(producer, producerShop);
     }
   }
 }
 
-function appendProducer() {}
+// Creating a helper function to append created producers to the right column if they do not already exist in the DOM
+
+function appendProducer(producer, producerShop) {
+  //If no active producers, add it
+  if (activeProducers.length === 0) {
+    producerShop.appendChild(producer);
+    activeProducers.push(coffeeProducers[i].name);
+  } else {
+    //If there are active producers, check to see if the current one matches any of the existing producers:
+    //The assumption is that it does not exist unless otherwise proven to.
+    let alreadyExists = false;
+
+    activeProducers.forEach((producerName) => {
+      if (producerName === coffeeProducers[i].name) {
+        alreadyExists = true;
+      }
+    });
+
+    //If it does not exist, code WILL run and add the producer. If it does already exist, code will NOT run
+    if (!alreadyExists) {
+      producerShop.appendChild(producer);
+      activeProducers.push(coffeeProducers[i].name);
+    }
+  }
+}
