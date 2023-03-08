@@ -121,3 +121,14 @@ function updateProducerInfo(producer, i) {
   coffeeRate += coffeeProducers[i].rate;
   rate.textContent = `${coffeeRate} coffee/second`;
 }
+
+//Want to create a function to add auto generated coffee once per second at a rate set by the purchased producers
+
+//This function can start as soon as the page is loaded since the initial rate is 0 coffee per second
+
+setInterval(automateCoffee, 1000);
+
+function automateCoffee() {
+  coffeeCount = coffeeCount + coffeeRate;
+  scoreboard.textContent = `Coffee: ${coffeeCount}`;
+}
