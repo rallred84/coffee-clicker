@@ -9,7 +9,6 @@ const coffeeProducers = [
     quantity: 0,
     rate: 1,
     cost: 10,
-    isVisible: false,
   },
   {
     id: 1,
@@ -17,7 +16,6 @@ const coffeeProducers = [
     quantity: 0,
     rate: 2,
     cost: 50,
-    isVisible: false,
   },
   {
     id: 2,
@@ -25,7 +23,55 @@ const coffeeProducers = [
     quantity: 0,
     rate: 3,
     cost: 100,
-    isVisible: false,
+  },
+  {
+    id: 3,
+    name: 'Nespresso',
+    quantity: 0,
+    rate: 12,
+    cost: 500,
+  },
+  {
+    id: 4,
+    name: 'Breville Oracle Touch',
+    quantity: 0,
+    rate: 20,
+    cost: 1000,
+  },
+  {
+    id: 5,
+    name: 'LA Spazile',
+    quantity: 0,
+    rate: 95,
+    cost: 5000,
+  },
+  {
+    id: 6,
+    name: 'Victoria Arduino Black Eagle',
+    quantity: 0,
+    rate: 175,
+    cost: 10000,
+  },
+  {
+    id: 7,
+    name: 'Nuova Simonelii',
+    quantity: 0,
+    rate: 400,
+    cost: 25000,
+  },
+  {
+    id: 8,
+    name: 'EV Ersys Shotmaster',
+    quantity: 0,
+    rate: 1500,
+    cost: 100000,
+  },
+  {
+    id: 9,
+    name: 'La Marzocco Strada',
+    quantity: 0,
+    rate: 6000,
+    cost: 500000,
   },
 ];
 
@@ -63,7 +109,7 @@ function createProducer() {
 <div class="producer-info">
   <span class = "quantity">Quantity: ${coffeeProducers[i].quantity}</span>
   <span class = "rate">Coffee/Second: ${coffeeProducers[i].rate}</span>
-  <span>Cost: ${coffeeProducers[i].cost} coffee</span>
+  <span class = "cost">Cost: ${coffeeProducers[i].cost} coffee</span>
 </div>
 </div>
 `;
@@ -108,6 +154,10 @@ function createBuyButton(producer, i) {
       //Remove (product specific) cost of producer from total coffee
       coffeeCount -= coffeeProducers[i].cost;
       scoreboard.textContent = `Coffee: ${coffeeCount}`;
+      //Increase the Cost of an item by 25% each time that item is purchase
+      coffeeProducers[i].cost = Math.floor(coffeeProducers[i].cost * 1.25);
+      let cost = producer.querySelector('.cost');
+      cost.textContent = `Cost: ${coffeeProducers[i].cost} coffee`;
     }
   });
 }
