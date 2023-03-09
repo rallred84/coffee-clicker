@@ -68,7 +68,7 @@ const coffeeProducers = [
   },
   {
     id: 9,
-    name: 'La Marzocco Strada',
+    name: 'La Marzo Strada',
     quantity: 0,
     rate: 6000,
     cost: 500000,
@@ -84,7 +84,7 @@ const rate = document.querySelector('#coffee-rate'); //The current coffee/second
 //Event listener for coffee button
 coffeeImage.addEventListener('click', () => {
   coffeeCount++;
-  scoreboard.textContent = `Coffee: ${coffeeCount}`;
+  scoreboard.textContent = `Coffee: ${coffeeCount.toLocaleString('en-US')}`;
 });
 
 //Event listener for scoreboard
@@ -107,9 +107,13 @@ function createProducer() {
   <button>Buy</button>
 </div>
 <div class="producer-info">
-  <span class = "quantity">Quantity: ${coffeeProducers[i].quantity}</span>
+  <span class = "quantity">Quantity: ${coffeeProducers[
+    i
+  ].quantity.toLocaleString('en-US')}</span>
   <span class = "rate">Coffee/Second: ${coffeeProducers[i].rate}</span>
-  <span class = "cost">Cost: ${coffeeProducers[i].cost} coffee</span>
+  <span class = "cost">Cost: ${coffeeProducers[i].cost.toLocaleString(
+    'en-US'
+  )} coffee</span>
 </div>
 </div>
 `;
@@ -153,11 +157,13 @@ function createBuyButton(producer, i) {
       updateProducerInfo(producer, i);
       //Remove (product specific) cost of producer from total coffee
       coffeeCount -= coffeeProducers[i].cost;
-      scoreboard.textContent = `Coffee: ${coffeeCount}`;
+      scoreboard.textContent = `Coffee: ${coffeeCount.toLocaleString('en-US')}`;
       //Increase the Cost of an item by 25% each time that item is purchase
       coffeeProducers[i].cost = Math.floor(coffeeProducers[i].cost * 1.25);
       let cost = producer.querySelector('.cost');
-      cost.textContent = `Cost: ${coffeeProducers[i].cost} coffee`;
+      cost.textContent = `Cost: ${coffeeProducers[i].cost.toLocaleString(
+        'en-US'
+      )} coffee`;
     }
   });
 }
@@ -166,10 +172,12 @@ function updateProducerInfo(producer, i) {
   //Create quantity element inside producer and add 1 quantity to it, then update text content in DOM
   let quantity = producer.querySelector('.quantity');
   coffeeProducers[i].quantity += 1;
-  quantity.textContent = `Quantity: ${coffeeProducers[i].quantity}`;
+  quantity.textContent = `Quantity: ${coffeeProducers[
+    i
+  ].quantity.toLocaleString('en-US')}`;
   //Add producer specific rate quanity to total coffe/second rate, then update text content in DOM
   coffeeRate += coffeeProducers[i].rate;
-  rate.textContent = `${coffeeRate} coffee/second`;
+  rate.textContent = `${coffeeRate.toLocaleString('en-US')} coffee/second`;
 }
 
 //Want to create a function to add auto generated coffee once per second at a rate set by the purchased producers
@@ -180,5 +188,5 @@ setInterval(automateCoffee, 1000);
 
 function automateCoffee() {
   coffeeCount = coffeeCount + coffeeRate;
-  scoreboard.textContent = `Coffee: ${coffeeCount}`;
+  scoreboard.textContent = `Coffee: ${coffeeCount.toLocaleString('en-US')}`;
 }
