@@ -39,7 +39,7 @@ body {
 #producers-title {
   position: relative;
   top: 9px;
-  font-size: 20px;
+  font-size: 23px;
 }
 
 #producer-shop {
@@ -52,12 +52,13 @@ body {
 }
 
 #coffee-count {
-  font-size: 20px;
-  margin-bottom: 3px;
+  font-size: 28px;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 #coffee-rate {
-  font-size: 17px;
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
@@ -83,16 +84,17 @@ img {
 .producer-name {
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .producer-name > button {
   margin-top: 5px;
   width: 50px;
+  font-size: 13px;
 }
 
 .producer-info {
   display: flex;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 14px;
 }
