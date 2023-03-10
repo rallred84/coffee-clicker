@@ -89,7 +89,7 @@ coffeeImage.addEventListener('click', () => {
 
 //Event listener for scoreboard
 //Not sure if this is the best way, but DOMSubtreeModified 'fires when the structure of the DOM tree changes'...so when the count changes on the scoreboard, this listener will fire (also worked with DOMNodeInserted and DOMNodeRemoved)
-scoreboard.addEventListener('DOMSubtreeModified', createProducer);
+// scoreboard.addEventListener('DOMSubtreeModified', createProducer);
 
 //We want to make a function that will create a producer card when the coffee score gets to half the producer's cost. As we create producers we will store them in an Active Producer array (activeProducers)
 
@@ -189,4 +189,5 @@ setInterval(automateCoffee, 1000);
 function automateCoffee() {
   coffeeCount = coffeeCount + coffeeRate;
   scoreboard.textContent = `Coffee: ${coffeeCount.toLocaleString('en-US')}`;
+  createProducer();
 }
